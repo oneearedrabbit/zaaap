@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+
+$VERBOSE = nil
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: zaaap [options]"
+
+  opts.on("-e", "--eval [program]", "Evaluate a program") do |v|
+    options[:eval] = v
+  end
+end.parse!
+
+require File.join(File.dirname(__FILE__), '../lib/zaaap')
+
+content = options[:eval] ? options[:eval] : File.read(File.expand_path(ARGV[0]))
+puts Corpse.run(content)

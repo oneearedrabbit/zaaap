@@ -1,0 +1,55 @@
+grammar Frankenstein
+  rule prorgam
+    cell* <Program>
+  end
+
+  rule cell
+    ignore (list / atom) ignore <Cell>
+  end
+
+  rule list
+    '(' cell* ignore ')' <List>
+  end
+
+
+  rule atom
+    datum / identifier
+  end
+
+  rule identifier
+    (!delimiter .)+ <Identifier>
+  end
+
+  rule datum
+    boolean / integer / string
+  end
+
+  rule string
+    '"' ('\\"' / [^"])* '"' <String>
+  end
+
+  rule boolean
+    ('#t' / '#f') <Boolean>
+  end
+
+  rule integer
+    ('0' / [1-9] [0-9]*) <Integer> 
+  end
+
+
+  rule delimiter
+    space / '(' / ')'
+  end
+
+  rule space
+    [\s\t\r\n]
+  end
+
+  rule ignore
+    space* (comment ignore)?
+  end
+
+  rule comment
+    ";" (![\n\r] .)*
+  end
+end
